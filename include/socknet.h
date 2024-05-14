@@ -24,8 +24,13 @@ typedef enum {
 } net_type_t;
 
 typedef enum {
-    NET_ERROR,
+    NET_DATA,
+    NET_RESPONSE
+} net_packet_type_t;
+
+typedef enum {
     NET_OK,
+    NET_ERROR,
     NET_DISCONNECT
 } net_status_t;
 
@@ -60,7 +65,7 @@ typedef struct {
 //////////////////////////////////////////////////////////////////// Packets //
 
 typedef struct {
-    net_status_t status;
+    net_packet_type_t type;
     unsigned int data_size;
 } net_header_t;
 
@@ -70,10 +75,9 @@ typedef struct {
 } net_packet_t;
 
 typedef struct {
-    int socket;
-    unsigned int data_size;
-    void *data;
-} net_packet_info_t;
+    net_connection_t connection;
+    net_packet_t packet;
+} net_transfer_t;
 
 ///////////////////////////////////////////////////////////////////// Common //
 

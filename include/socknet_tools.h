@@ -8,7 +8,7 @@
 #pragma once
 
 #include <sys/select.h>
-#include "net.h"
+#include "socknet.h"
 
 bool send_packet(int socket, net_packet_t *packet);
 
