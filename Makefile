@@ -23,7 +23,7 @@ OBJ		=	$(SRC:%.c=$(OBJDIR)/%.o)
 
 INCDIRS	=	include
 
-INCLIBS	=	linked
+INCLIBS	=	linked clogger
 
 CFLAGS	+=	-Wall -Wextra
 
@@ -45,11 +45,17 @@ clean:
 
 fclean: clean
 	rm -f $(LNAME)
+	rm -f $(NAME)
 
 re: fclean all
+
+$(NAME):	$(LNAME)
+	gcc -o $(NAME) tests/main.c $(LDFLAGS) $(CFLAGS) -L. -l$(NAME)
+
+debug:	$(NAME)
 
 $(OBJDIR)/%.o:	%.c
 	@mkdir -p $(@D)
 	gcc -o $@ -c $< $(CFLAGS) $(LDFLAGS)
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re debug $(NAME)

@@ -8,7 +8,8 @@
 #pragma once
 
 #include <netinet/in.h>
-#include "linked.h"
+#include <linked.h>
+#include <clogger.h>
 
 #define DEFAULT_QUEUE_SIZE 10
 #define SELECT_TIMEOUT_MS 100
@@ -45,6 +46,7 @@ typedef struct {
     net_type_t type;
     list_t to_send;
     list_t to_recv;
+    logger_t logger;
     union {
         net_server_t server;
         net_client_t client;
