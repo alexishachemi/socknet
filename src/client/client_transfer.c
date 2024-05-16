@@ -5,6 +5,8 @@
 ** client transfer functions
 */
 
+#include <stdlib.h>
+#include <string.h>
 #include "socknet_dev.h"
 
 static bool can_send(net_t *net, const void *data, unsigned int n)

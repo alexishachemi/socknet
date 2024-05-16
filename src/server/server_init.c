@@ -7,6 +7,15 @@
 
 #include "socknet_dev.h"
 
+static void init_lists(net_t *net)
+{
+    list_init(&net->server.clients);
+    list_init(&net->server.incoming);
+    list_init(&net->server.outgoing);
+    list_init(&net->to_recv);
+    list_init(&net->to_send);
+}
+
 bool nets_init(net_t *net, port_t port, const char *log_path)
 {
     if (!net || !logger_init(&net->logger, log_path))
@@ -24,5 +33,6 @@ bool nets_init(net_t *net, port_t port, const char *log_path)
         return false;
     }
     net->type = NET_SERVER;
+    init_lists(net);
     return TRUE_NLOG(net, INFO, "Server started on port %d", port);
 }

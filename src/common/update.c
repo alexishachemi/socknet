@@ -9,6 +9,7 @@
 
 static net_status_t update_server(net_t *net)
 {
+    (void)net;
     return NET_OK;
 }
 

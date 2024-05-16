@@ -9,10 +9,9 @@
 
 int main(void)
 {
-    logger_t logger;
+    net_t net;
 
-    init_enabled_logger(&logger, "test.log");
-    LOG(&logger, INFO, "Hello, world!");
-    deinit_logger(&logger);
+    nets_init(&net, 4242, "server.log");
+    net_deinit(&net);
     return 0;
 }

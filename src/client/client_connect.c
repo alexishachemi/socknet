@@ -5,6 +5,7 @@
 ** client connection functions
 */
 
+#include <arpa/inet.h>
 #include "socknet_dev.h"
 
 bool netc_connect(net_t *net, const char *host, port_t port)
