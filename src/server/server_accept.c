@@ -16,10 +16,10 @@ bool nets_accept_incoming(net_t *net, net_connection_t *c_buf)
     if (!net || !c_buf || !nets_has_incoming(net)
         || !list_move(&net->server.incoming, 0, &net->server.clients))
         return FALSE_NLOG(net, ERROR,
-            "server failed to accept incoming connection");
+            "Failed to accept incoming connection");
     connection = list_at(&net->server.clients, -1);
     memcpy(c_buf, connection, sizeof(net_connection_t));
-    return TRUE_NLOG(net, INFO, "server accepted incoming client %d",
+    return TRUE_NLOG(net, INFO, "Accepted incoming client %d",
         connection->sock);
 }
 
@@ -29,11 +29,11 @@ bool nets_accept_outgoing(net_t *net, net_connection_t *c_buf)
 
     if (!net || !c_buf || !nets_has_outgoing(net))
         return FALSE_NLOG(net, ERROR,
-            "server failed to accept outgoing connection");
+            "Failed to accept outgoing connection");
     connection = list_pop(&net->server.outgoing, 0);
     memcpy(c_buf, connection, sizeof(net_connection_t));
     free(connection);
-    return TRUE_NLOG(net, INFO, "server accepted outgoing client %d",
+    return TRUE_NLOG(net, INFO, "Accepted outgoing client %d",
         connection->sock);
 }
 
@@ -44,7 +44,7 @@ bool nets_kick(net_t *net, int sock)
     size_t i = 0;
 
     if (!net || sock < 0)
-        return FALSE_NLOG(net, ERROR, "server failed to kick client %d", sock);
+        return FALSE_NLOG(net, ERROR, "Failed to kick client %d", sock);
     for (node_t *n = net->server.clients.head; n; n = n->next) {
         connection = n->data;
         if (connection->sock == sock) {
@@ -55,7 +55,7 @@ bool nets_kick(net_t *net, int sock)
     }
     if (!found
         || !list_move(&net->server.clients, i, &net->server.outgoing))
-        return FALSE_NLOG(net, ERROR, "server failed to kick client %d", sock);
+        return FALSE_NLOG(net, ERROR, "Failed to kick client %d", sock);
     nets_clear_sock_transfer(net, connection->sock);
-    return TRUE_NLOG(net, INFO, "server kicked client %d", sock);
+    return TRUE_NLOG(net, INFO, "Kicked client %d", sock);
 }

@@ -14,28 +14,28 @@ bool netc_connect(net_t *net, const char *host, port_t port)
     socklen_t addr_len = sizeof(addr);
 
     if (!net || !host || net->type != NET_CLIENT)
-        return FALSE_NLOG(net, ERROR, "Client failed to connect");
+        return FALSE_NLOG(net, ERROR, "Failed to connect");
     if (net->sock != -1)
         return FALSE_NLOG(net, ERROR,
-            "Client failed to connect, already connected");
+            "Failed to connect, already connected");
     addr.sin_family = AF_INET;
     addr.sin_port = htons(port);
     if (inet_aton(host, &addr.sin_addr) != 1)
-        return FALSE_NLOG(net, ERROR, "Client failed to connect, bad host");
+        return FALSE_NLOG(net, ERROR, "Failed to connect, bad host");
     if (connect(net->sock, (struct sockaddr *)&addr, addr_len) == -1)
-        return FALSE_NLOG(net, ERROR, "Client failed to connect, bad connect");
+        return FALSE_NLOG(net, ERROR, "Failed to connect, bad connect");
     net->client.is_connected = true;
-    return TRUE_NLOG(net, INFO, "Client connected to %s:%d", host, port);
+    return TRUE_NLOG(net, INFO, "Connected to %s:%d", host, port);
 }
 
 bool netc_disconnect(net_t *net)
 {
     if (!net || net->type != NET_CLIENT)
-        return FALSE_NLOG(net, ERROR, "Client failed to disconnect");
+        return FALSE_NLOG(net, ERROR, "Failed to disconnect");
     close(net->sock);
     net->sock = -1;
     net->client.is_connected = false;
-    return TRUE_NLOG(net, INFO, "Client disconnected");
+    return TRUE_NLOG(net, INFO, "Disconnected");
 }
 
 bool netc_is_connected(net_t *net)
