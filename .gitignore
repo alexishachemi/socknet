@@ -3,3 +3,4 @@
 *.log
 *socknet*
 !socknet*.h
+docs/html

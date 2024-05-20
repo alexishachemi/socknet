@@ -5,6 +5,8 @@
 ** Main header
 */
 
+/// @file socknet.h
+
 #pragma once
 
 #include <netinet/in.h>
@@ -13,22 +15,26 @@
 
 #define QUEUE_SIZE 10
 #define SELECT_TIMEOUT_MS 100
-#define CLIENT_RESPONSE_TIMEOUT 30000
+#define CLIENT_RESPONSE_TIMEOUT 10000
 #define SERVER_RESPONSE_TIMEOUT 30000
 #define MAX_PACKET_SIZE 1024
 
 typedef unsigned int port_t;
 
+/// @brief Type of a network module
 typedef enum {
     NET_SERVER,
     NET_CLIENT
 } net_type_t;
 
+/// @brief Type of a packet, `data` for packets that contain data, `response`
+/// for packets that are responses to other packets
 typedef enum {
     NET_DATA,
     NET_RESPONSE
 } net_packet_type_t;
 
+/// @brief Status of a network module, returned by `net_update()`
 typedef enum {
     NET_OK,
     NET_ERROR,
@@ -37,16 +43,31 @@ typedef enum {
 
 //////////////////////////////////////////////////////////////// Main Module //
 
+/// @brief Server component of a network module
+/// @param incoming list of `net_connection_t` for incoming connections
+/// @param outgoing list of `net_connection_t` for outgoing connections
+/// @param clients list of `net_connection_t` for connected clients
 typedef struct {
-    list_t incoming; // connection_t
-    list_t outgoing; // connection_t
-    list_t clients; // connection_t
+    list_t incoming;
+    list_t outgoing;
+    list_t clients;
 } net_server_t;
 
+/// @brief Client component of a network module
+/// @param is_connected boolean used internally to know if the client is
+/// connected
 typedef struct {
     bool is_connected;
 } net_client_t;
 
+/// @brief Main network module
+/// @param sock socket of the network module
+/// @param type type of the network module
+/// @param to_send list of `net_transfer_t` containing packets to send
+/// @param to_recv list of `net_transfer_t` containing packets recieved
+/// @param logger internal logging module
+/// @param server server component of the network module
+/// @param client client component of the network module
 typedef struct {
     int sock;
     net_type_t type;
@@ -59,22 +80,36 @@ typedef struct {
     };
 } net_t;
 
+/// @brief Component representing a connection between two network modules
+/// @param sock socket of the connection
 typedef struct {
     int sock;
 } net_connection_t;
 
 //////////////////////////////////////////////////////////////////// Packets //
 
+/// @brief Header of a packet
+/// @param type type of the packet
+/// @param data_size size of the data in the packet
 typedef struct {
     net_packet_type_t type;
     unsigned int data_size;
 } net_header_t;
 
+/// @brief Data structure representing a packet sent over the network
+/// @param header header of the packet
+/// @param data data of the packet
+/// @note When populated, `data` points to memory allocated in the heap. When
+/// populated by a function, the ownership of the data is transferred to the
+/// caller
 typedef struct {
     net_header_t header;
     void *data;
 } net_packet_t;
 
+/// @brief Data structure representing a transfer of a packet
+/// @param connection connection the packet is to be sent to or recieved from
+/// @param packet packet to be sent or recieved
 typedef struct {
     net_connection_t connection;
     net_packet_t packet;
@@ -86,6 +121,10 @@ typedef struct {
 /// @param net the network module
 void net_deinit(net_t *net);
 
+/// @brief Updates a network module. This function must be called in a loop to
+/// keep the network module up to date.
+/// @param net the network module
+/// @return the status of the network module
 net_status_t net_update(net_t *net);
 
 /// @brief Checks if a network module has packets to send of to revieve

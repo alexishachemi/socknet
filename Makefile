@@ -43,7 +43,10 @@ clean:
 	rm -rf $(shell find . -type f -name '*.gcda')
 	rm -rf $(shell find . -type f -name '*.gcno')
 
-fclean: clean
+dclean:
+	@rm -rf docs/html/
+
+fclean: clean dclean
 	rm -f $(LNAME)
 	rm -f $(NAME)_client
 	rm -f $(NAME)_server
@@ -54,8 +57,11 @@ debug: $(LNAME)
 	gcc -o $(NAME)_server tests/server.c $(CFLAGS) -L. -l$(NAME) $(LDFLAGS)
 	gcc -o $(NAME)_client tests/client.c $(CFLAGS) -L. -l$(NAME) $(LDFLAGS)
 
+docs: dclean
+	(cd docs; doxygen)
+
 $(OBJDIR)/%.o:	%.c
 	@mkdir -p $(@D)
 	gcc -o $@ -c $< $(CFLAGS) $(LDFLAGS)
 
-.PHONY: all clean fclean re debug
+.PHONY: all clean dclean fclean re debug docs
