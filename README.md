@@ -4,7 +4,7 @@
 
 ### C socket programming made easy (hopefully)
 
-Socknet is networking library with the goal of warpping socket programing around the concept of network modules. It allows the user to send data of a custom size between a **server** and multiple **clients**.
+Socknet is networking library with the goal of wrapping socket programming around the concept of network modules. It allows the user to send data of a custom size between a **server** and multiple **clients**.
 
 It is developped for use in my epitech projects so the source code abide to the epitech coding-style rules.
 
