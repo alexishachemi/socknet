@@ -14,6 +14,7 @@ It is developped for use in my epitech projects so the source code abide to the 
 - [GNU Make](https://www.gnu.org/software/make/) (4.3+)
 - [CLogger](https://github.com/alexishachemi/clogger) (any)
 - [Linked](https://github.com/alexishachemi/linked) (any)
+- [Doxygen](https://www.doxygen.nl/) (1.9.1+) (only for documentation)
 
 ## Building
 
