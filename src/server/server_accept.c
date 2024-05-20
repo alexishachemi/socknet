@@ -13,10 +13,13 @@ bool nets_accept_incoming(net_t *net, net_connection_t *c_buf)
 {
     net_connection_t *connection = NULL;
 
-    if (!net || !c_buf || !nets_has_incoming(net)
-        || !list_move(&net->server.incoming, 0, &net->server.clients))
+    if (!net || !c_buf)
         return FALSE_NLOG(net, ERROR,
-            "Failed to accept incoming connection");
+            "Failed to accept incoming connection, bad args");
+    if (!nets_has_incoming(net))
+        return FALSE_NLOG(net, DEBUG, "No incoming connection to accept");
+    if (!list_move(&net->server.incoming, 0, &net->server.clients))
+        return FALSE_NLOG(net, ERROR, "Failed to accept incoming connection");
     connection = list_at(&net->server.clients, -1);
     memcpy(c_buf, connection, sizeof(net_connection_t));
     return TRUE_NLOG(net, INFO, "Accepted incoming client %d",

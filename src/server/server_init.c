@@ -18,9 +18,9 @@ static void init_lists(net_t *net)
 
 bool nets_init(net_t *net, port_t port, const char *log_path)
 {
-    if (!net || !logger_init(&net->logger, log_path))
+    if (!net || !logger_init(&net->logger, log_path, true))
         return false;
-    net->sock = open_socket(port);
+    net->sock = net_open_socket(port);
     if (net->sock == -1) {
         NLOG(net, CRITICAL, "Failed to open socket");
         logger_deinit(&net->logger);

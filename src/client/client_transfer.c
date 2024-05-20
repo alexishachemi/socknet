@@ -52,7 +52,7 @@ bool netc_recv(net_t *net, net_transfer_t *t_buf)
     if (!net || !t_buf)
         return FALSE_NLOG(net, ERROR, "Failed to receive transfer");
     if (!net_has_to_recv(net))
-        return FALSE_NLOG(net, ERROR, "No received transfer");
+        return false;
     transfer = list_pop(&net->to_recv, 0);
     memcpy(t_buf, transfer, sizeof(net_transfer_t));
     free(transfer);

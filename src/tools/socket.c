@@ -26,7 +26,7 @@ int nets_get_fd_set(net_t *net, fd_set *set)
     return max;
 }
 
-int open_socket(port_t port)
+int net_open_socket(port_t port)
 {
     struct sockaddr_in saddr = {0};
     int sock = 0;

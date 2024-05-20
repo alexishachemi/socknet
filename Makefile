@@ -45,17 +45,17 @@ clean:
 
 fclean: clean
 	rm -f $(LNAME)
-	rm -f $(NAME)
+	rm -f $(NAME)_client
+	rm -f $(NAME)_server
 
 re: fclean all
 
-$(NAME):	$(LNAME)
-	gcc -o $(NAME) tests/main.c $(CFLAGS) -L. -l$(NAME) $(LDFLAGS)
-
-debug:	$(NAME)
+debug: $(LNAME)
+	gcc -o $(NAME)_server tests/server.c $(CFLAGS) -L. -l$(NAME) $(LDFLAGS)
+	gcc -o $(NAME)_client tests/client.c $(CFLAGS) -L. -l$(NAME) $(LDFLAGS)
 
 $(OBJDIR)/%.o:	%.c
 	@mkdir -p $(@D)
 	gcc -o $@ -c $< $(CFLAGS) $(LDFLAGS)
 
-.PHONY: all clean fclean re debug $(NAME)
+.PHONY: all clean fclean re debug

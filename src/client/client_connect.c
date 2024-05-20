@@ -15,7 +15,7 @@ bool netc_connect(net_t *net, const char *host, port_t port)
 
     if (!net || !host || net->type != NET_CLIENT)
         return FALSE_NLOG(net, ERROR, "Failed to connect");
-    if (net->sock != -1)
+    if (net->client.is_connected)
         return FALSE_NLOG(net, ERROR,
             "Failed to connect, already connected");
     addr.sin_family = AF_INET;

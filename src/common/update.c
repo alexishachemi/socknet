@@ -9,7 +9,12 @@
 
 static net_status_t update_server(net_t *net)
 {
-    (void)net;
+    if (!nets_fetch_clients(net))
+        return NET_ERROR;
+    if (!net_fetch_packets(net))
+        return NET_ERROR;
+    if (!net_send_queued(net))
+        return NET_ERROR;
     return NET_OK;
 }
 
@@ -17,6 +22,10 @@ static net_status_t update_client(net_t *net)
 {
     if (!netc_is_connected(net))
         return NET_DISCONNECT;
+    if (!net_fetch_packets(net))
+        return NET_ERROR;
+    if (!net_send_queued(net))
+        return NET_ERROR;
     return NET_OK;
 }
 
