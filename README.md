@@ -28,16 +28,10 @@ It will then build the `libsocknet.a` binary.
 
 ## Installing
 
-Custom Makefile rules can be used to manage installation of the library in your system:
+Custom Makefile rules (`install`, `uninstall`, `reinstall`) can be used to manage installation of the library in your system:
 
 ```sh
 make install
-```
-```sh
-make uninstall
-```
-```sh
-make reinstall
 ```
 
 ## Usage
