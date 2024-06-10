@@ -29,7 +29,7 @@ void nets_clear_sock_transfer(net_t *net, int sock)
 
     if (!net)
         return NLOG(net, ERROR, "Couldn't clear client %s's packets", sock);
-    for (size_t i = 0; i < list_size(&net->to_send); i++) {
+    for (size_t i = 0; i < net->to_send.size; i++) {
         transfer = list_at(&net->to_send, i);
         if (transfer->connection.sock == sock) {
             list_remove(&net->to_send, free_transfer, i);

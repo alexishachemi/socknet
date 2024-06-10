@@ -106,7 +106,7 @@ static bool server_fetch_packets(net_t *net)
 {
     net_connection_t *connection = NULL;
 
-    for (size_t i = 0; i < list_size(&net->server.clients); i++) {
+    for (size_t i = 0; i < net->server.clients.size; i++) {
         connection = list_at(&net->server.clients, i);
         if (!net_recv_packet(net, connection->sock))
             return false;
