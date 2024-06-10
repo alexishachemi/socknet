@@ -29,13 +29,6 @@ bool net_send_queued(net_t *net);
 bool net_send_response(net_t *net, int sock);
 bool net_await_response(net_t *net, int sock);
 
-// list state
-
-bool net_has_to_send(net_t *net);
-bool net_has_to_recv(net_t *net);
-bool nets_has_incoming(net_t *net);
-bool nets_has_outgoing(net_t *net);
-
 // client handling
 
 net_connection_t *nets_get_client(net_t *net, int sock);

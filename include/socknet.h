@@ -139,6 +139,23 @@ bool net_is_busy(net_t *net);
 /// @return true if the log level was set, false otherwise
 bool net_set_log_level(net_t *net, log_level_t lvl);
 
+/// @brief Checks if a network module has packets to send
+/// @param net the network module
+/// @return true if the network module has packets to send, false otherwise
+bool net_will_send(net_t *net);
+
+/// @brief Checks if a network module has packets to recieve
+/// @param net the network module
+/// @return true if the network module has packets to recieve, false otherwise
+bool net_will_recv(net_t *net);
+
+/// @brief Checks if a network module will send to a specific socket
+/// @param net the network module
+/// @param sock the socket to check
+/// @return true if the network module has a packet to send to the socket,
+/// false otherwise
+bool net_will_send_to(net_t *net, int sock);
+
 ////////////////////////////////////////////////////////////// Server (nets) //
 
 /// @brief Initializes a network module as a server
@@ -188,6 +205,18 @@ bool nets_accept_outgoing(net_t *net, net_connection_t *c_buf);
 /// @param sock the socket of the client to kick
 /// @return true if the client was kicked, false otherwise
 bool nets_kick(net_t *net, int sock);
+
+/// @brief Checks if a network module has incoming connections
+/// @param net the network module
+/// @return true if the network module has incoming connections,
+/// false otherwise
+bool nets_has_incoming(net_t *net);
+
+/// @brief Checks if a network module has outgoing connections
+/// @param net the network module
+/// @return true if the network module has outgoing connections,
+/// false otherwise
+bool nets_has_outgoing(net_t *net);
 
 ////////////////////////////////////////////////////////////// Client (netc) //
 

@@ -54,7 +54,7 @@ bool net_send_queued(net_t *net)
     if (!net)
         return FALSE_NLOG(net, ERROR,
             "Failed to send queued packets, bad args");
-    if (!net_has_to_send(net))
+    if (!net_will_send(net))
         return true;
     transfer = list_at(&net->to_send, 0);
     if (!net_send_packet(net, transfer))
